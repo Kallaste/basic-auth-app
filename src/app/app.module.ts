@@ -4,7 +4,8 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 //import { Storage } from '@ionic/storage';  //Don't do this. Ioinc keeps changing their syntax and it doesn't work anymore. 
-//import { IonicStorageModule } from '@ionic/Storage';    
+//import { IonicStorageModule } from '@ionic/Storage';  
+//To use this, you need to install sqlite with the following command: 'ionic cordova plugin add cordova-sqlite-storage'
 import { IonicStorageModule } from '@ionic/storage' //Do this instead. Must be capital S.
 //import { IonicStorageModule } from '@ionic/storage';
 import { HttpModule} from '@angular/http';    //We need this to use Http, or we will get a NullInjectorError that says "No provider for Http!"

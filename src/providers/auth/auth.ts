@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { IonicStorageModule } from '@ionic/Storage';
+//This goes with IonicStorageModule which we imported in app.module.ts; don't ask me why we need to use a different name here.
 import { Storage } from '@ionic/storage';
 /*
   See https://angular.io/guide/dependency-injection for more info on providers
@@ -42,7 +43,7 @@ export class AuthProvider {
           .subscribe(res => {
             let data = res.json();    //Convert the response to JSON format
             this.token = data.token;  //The server passes the JWT to us in the response data, and we store it in our token variable
-            this.storage.setItem('token', data.token);  //Then we put it in local storage for future reference
+            this.storage.set('token', data.token);  //Then we put it in local storage for future reference
             resolve(data);            //Resolve
 
             resolve(res.json());
@@ -100,7 +101,7 @@ export class AuthProvider {
 
           let data = res.json();    //Convert server response to JSON
           this.token = data.token;
-          this.storage.setItem('token', data.token);
+          this.storage.set('token', data.token);
           resolve(data);
 
           resolve(res.json());
@@ -113,7 +114,7 @@ export class AuthProvider {
 
   //When the user logs out, all we need to do is remove the token from storage
   logout(){
-    this.storage.setItem('token', '');
+    this.storage.set('token', '');
   }
 
 }
