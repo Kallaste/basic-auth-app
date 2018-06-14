@@ -2,7 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
-
+import { IonicStorageModule } from '@ionic/Storage';
+import { Storage } from '@ionic/storage';
 /*
   See https://angular.io/guide/dependency-injection for more info on providers
   and Angular DI.
@@ -37,7 +38,7 @@ export class AuthProvider {
 
         //Use the Http client we brought in through the constructor to make the API call to the server using our custom headers
         //The /api/auth/protected route does not do anything except verify if the user is logged in. If the request suceeds, they are already logged in; if it fails, they are not
-        this.http.get('http:localhost:3000/api/auth/protected', {headers: headers})
+        this.http.get('http:localhost:8080/api/auth/protected', {headers: headers})
           .subscribe(res => {
             let data = res.json();    //Convert the response to JSON format
             this.token = data.token;  //The server passes the JWT to us in the response data, and we store it in our token variable
@@ -67,7 +68,7 @@ export class AuthProvider {
         headers.append('Content-Type', 'application/json');
  
         //Make the API call to the server to register the user
-        this.http.post('http://localhost:3000/api/auth/register', JSON.stringify(details), {headers: headers})
+        this.http.post('http://localhost:8080/api/auth/register', JSON.stringify(details), {headers: headers})
           .subscribe(res => {
  
             let data = res.json();      //Convert response to JSON format
@@ -94,7 +95,7 @@ export class AuthProvider {
       headers.append('Content-Type', 'application/json');
 
       //Send the user credentials we collected along with our headers to our server via the api call
-      this.http.post('http://localhost:3000/api/auth/login', JSON.stringify(credentials), {headers: headers})
+      this.http.post('http://localhost:8080/api/auth/login', JSON.stringify(credentials), {headers: headers})
         .subscribe(res => {
 
           let data = res.json();    //Convert server response to JSON
