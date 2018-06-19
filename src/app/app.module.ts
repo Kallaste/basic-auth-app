@@ -10,6 +10,8 @@ import { IonicStorageModule } from '@ionic/storage' //Do this instead. Must be c
 //import { IonicStorageModule } from '@ionic/storage';
 import { HttpModule} from '@angular/http';    //We need this to use Http, or we will get a NullInjectorError that says "No provider for Http!"
 
+import { Facebook } from '@ionic-native/facebook';    //This is the module we installed with the 'ionic cordova add <APP_ID> <APP_NAME>' command
+
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
@@ -42,7 +44,8 @@ import { AuthProvider } from '../providers/auth/auth';
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    AuthProvider
+    AuthProvider,
+    Facebook          //Added
     //IonicStorageModule
   ]
 })
