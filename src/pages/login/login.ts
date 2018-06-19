@@ -67,6 +67,17 @@ export class LoginPage {
                 console.log("Name : " + name);
                 console.log("Email : " + email);
 
+                this.showLoader();
+
+                this.authService.login(fb_token).then((result) => {     //send the facebook access token to our auth provider
+                    this.loading.dismiss();
+                    console.log(result);
+                    this.navCtrl.setRoot(HomePage);
+                }, (err) => {
+                    this.loading.dismiss();
+                    console.log(err);
+                });
+
                 // => Open user session and redirect to the next page
 
             });
@@ -85,7 +96,7 @@ export class LoginPage {
     });
 }
  
-    login(){
+    /*login(){
  
         this.showLoader();
  
@@ -104,7 +115,11 @@ export class LoginPage {
             console.log(err);
         });
  
-    }
+    } */
+
+    
+
+    
  
     //Send user to signup page
     launchSignup(){

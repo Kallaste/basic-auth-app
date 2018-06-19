@@ -85,18 +85,18 @@ export class AuthProvider {
  
   }
 
-  login(credentials){
+  login(facebook_access_token){
 
     return new Promise((resolve, reject) => {
 
       //Angular Headers class
-      let headers = new Headers();
+      //let headers = new Headers();
 
       //Tell what kind of content we are sending
-      headers.append('Content-Type', 'application/json');
+      //headers.append('Content-Type', 'application/json');
 
-      //Send the user credentials we collected along with our headers to our server via the api call
-      this.http.post('http://localhost:8080/api/auth/login', JSON.stringify(credentials), {headers: headers})
+      //Send the facebook access token we obtained along with our headers to our server via the api call
+      this.http.post('http://localhost:3000/auth/facebook/callback', {access_token: facebook_access_token})
         .subscribe(res => {
 
           let data = res.json();    //Convert server response to JSON
