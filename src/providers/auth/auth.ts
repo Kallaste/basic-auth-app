@@ -35,7 +35,7 @@ export class AuthProvider {
 
         //Append a header name of "Authorization" with a value of the retrieved token
         //If our server receives a request to a protected route without the Authorization heaader and a valid JWT, it will reject the request 
-        headers.append('Authorization', this.token);
+        headers.append('Authorization', this.token);    //The headers with the jwt get sent to the 
 
         //Use the Http client we brought in through the constructor to make the API call to the server using our custom headers
         //The /api/auth/protected route does not do anything except verify if the user is logged in. If the request suceeds, they are already logged in; if it fails, they are not
@@ -50,6 +50,10 @@ export class AuthProvider {
           }, (err) => {
             reject(err);              //Drat, a problem
           });
+
+          //After we check to see if the user has a valid jwt, we need to make a call 
+          //to the getCurrentUser method to obtain (at least) the user id from the server.
+          //We can send that back with the data variable maybe
 
 
       });
