@@ -75,7 +75,8 @@ export class AuthProvider {
             
             headers.append('Authorization', this.token);
  
-            this.http.get('http://localhost:3000/auth/protected', {headers: headers})
+            //If there is a stored token, send it to the server to decode. If it is valid, return the user data.
+            this.http.get('http://localhost:3000/auth/jwtlogin', {headers: headers})
               .subscribe(res => {
                     resolve(res);
                 }, (err) => {
@@ -83,33 +84,6 @@ export class AuthProvider {
                 });
  
         });        
- 
-    });
- 
-  }
-
-  //Call this when we need to create a new user account
-  createAccount(details){
- 
-    return new Promise((resolve, reject) => {
- 
-        //An instance of the Angular Headers class
-        let headers = new Headers();
-        //Let the server know what type of content we are sending
-        headers.append('Content-Type', 'application/json');
- 
-        //Make the API call to the server to register the user
-        this.http.post('http://localhost:8080/api/auth/register', JSON.stringify(details), {headers: headers})
-          .subscribe(res => {
- 
-            let data = res.json();      //Convert response to JSON format
-            this.token = data.token;    //Take the JWT the server gave us and store it in our variable
-            this.storage.set('token', data.token);    //Then put it in local storage
-            resolve(data);              //Done
- 
-          }, (err) => {
-            reject(err);                //Or not
-          });
  
     });
  

@@ -15,7 +15,6 @@ import { Facebook } from '@ionic-native/facebook';    //This is the module we in
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
-import { SignupPage } from '../pages/signup/signup';
 
 import { AuthProvider } from '../providers/auth/auth';
 
@@ -23,8 +22,7 @@ import { AuthProvider } from '../providers/auth/auth';
   declarations: [
     MyApp,
     HomePage,
-    LoginPage,
-    SignupPage
+    LoginPage
   ],
   imports: [
     BrowserModule,
@@ -36,8 +34,7 @@ import { AuthProvider } from '../providers/auth/auth';
   entryComponents: [
     MyApp,
     HomePage,
-    LoginPage,
-    SignupPage
+    LoginPage
   ],
   providers: [
     //Storage,    //This is ionic's storage service; we need it to store the JWT in local storage

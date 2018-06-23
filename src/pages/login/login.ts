@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { NavController, LoadingController } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
 import { HomePage } from '../home/home';
-import { SignupPage } from '../signup/signup';
 
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
  
@@ -117,14 +116,7 @@ export class LoginPage {
  
     } */
 
-    
-
-    
- 
-    //Send user to signup page
-    launchSignup(){
-        this.navCtrl.push(SignupPage);
-    }
+      
  
     showLoader(){
  

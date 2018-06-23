@@ -1,3 +1,40 @@
-page-home {
+.ios, .md {
 
+    login-page {
+        .intro {
+            text-align: center;
+            border-bottom: 1px solid #e2e2e2;
+            padding-bottom: 14px;
+        }
+    
+        .btn_container {
+            padding-top: 14px;
+    
+            button {
+                background: #3b5998;
+            }
+        }
+    }
+
+    home-page {
+
+        ion-content {
+            background-color: #e2e2e2;
+        }
+        .intro {
+            text-align: center;
+            border-bottom: 1px solid #4673ad;
+            padding-bottom: 14px;
+        }
+    
+        .btn_container {
+            padding-top: 14px;
+    
+            button {
+                background: #3b5998;
+            }
+        }
+ 
+    }
+ 
 }
