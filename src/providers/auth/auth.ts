@@ -21,7 +21,7 @@ export class AuthProvider {
   }
 
   //Check with the server to see if the JWT is valid
-  checkAuthentication(){
+  checkAuthentication_orig(){
     return new Promise((resolve, reject) => {
 
       //Load the token if it exists already
@@ -62,26 +62,31 @@ export class AuthProvider {
     });
   }
 
-  checkAuthentication2(){
+  //Check with the server to see if the user has a valid jwt (this is called automatically in ionViewDidLoad(), when the login page loads)
+  checkAuthentication(){
  
     return new Promise((resolve, reject) => {
  
-        //Load token if exists
+        //Load the token if exists
         this.storage.get('token').then((value) => {
  
-            this.token = value;
+          //If we get a token from local storage, store it in our local variable in this provider
+          this.token = value;
+          
+          //An instance of the Angular Headers class
+          let headers = new Headers();
+          
+          //Append a header name of "Authorization" with a value of the retrieved token
+          //If our server receives a request to a protected route without the Authorization heaader and a valid JWT, it will reject the request 
+          headers.append('Authorization', this.token);
  
-            let headers = new Headers();
-            
-            headers.append('Authorization', this.token);
- 
-            //If there is a stored token, send it to the server to decode. If it is valid, return the user data.
-            this.http.get('http://localhost:3000/auth/jwtlogin', {headers: headers})
-              .subscribe(res => {
-                    resolve(res);
-                }, (err) => {
-                    reject(err);
-                });
+          //Send token to the server to decode. If it is valid, return the user data.
+          this.http.get('http://localhost:3000/auth/checklogin', {headers: headers})
+            .subscribe(res => {
+                  resolve(res);
+            }, (err) => {
+                  reject(err);
+            });
  
         });        
  
@@ -89,6 +94,8 @@ export class AuthProvider {
  
   }
 
+  //If we are here, it means the user was not already logged in (either because there was no jwt stored in local storage, 
+  //or because the server checked the jwt and it was invalid). So now the user needs to log in by sending the facebook access token to our server.
   login(facebook_access_token){
 
     return new Promise((resolve, reject) => {
@@ -103,14 +110,14 @@ export class AuthProvider {
       this.http.post('http://localhost:3000/auth/facebook/callback', {access_token: facebook_access_token})
         .subscribe(res => {
 
-          let data = res.json();    //Convert server response to JSON
-          this.token = data.token;
-          this.storage.set('token', data.token);
-          resolve(data);
+          let data = res.json();                  //Convert server response to JSON
+          this.token = data.token;                //The server passes the JWT to us in the response data, and we store it in our token variable
+          this.storage.set('token', data.token);  //Then we put it in local storage for future reference
+          resolve(data);                          //Resolve promise
 
           resolve(res.json());
         }, (err) => {
-          reject(err);
+          reject(err);                            //Drat, a problem
         });
     });
   }

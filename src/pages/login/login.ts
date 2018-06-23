@@ -27,47 +27,52 @@ export class LoginPage {
         this.showLoader();
  
         //Check if already authenticated, i.e, see if they have a valid JWT
-        this.authService.checkAuthentication2().then((res) => {
-            console.log("Already authorized");    //Our authservice returns a promise. If promise is resolved, the user has a valid JWT.
+        this.authService.checkAuthentication().then((res) => {
+            console.log("Already authorized");      //Our authservice returns a promise. If promise is resolved, the user has a valid JWT.
             this.loading.dismiss();
-            this.navCtrl.setRoot(HomePage);       //Logged in, redirect to home page
+            this.navCtrl.setRoot(HomePage);         //Logged in, redirect to home page
         }, (err) => {
             console.log("Not already authorized");
-            this.loading.dismiss();       //Stop loading animation
+            this.loading.dismiss();                 //Stop loading animation
         });
  
     }
 
-    loginAction()
-    {
-    // Login with permissions
+    //Called when a user clicks the "Log in with Facebook" button
+    loginAction() {
+    
     this.fb.login(['public_profile', 'user_photos', 'email', 'user_birthday'])
-    .then( (res: FacebookLoginResponse) => {
+    .then((res: FacebookLoginResponse) => {
 
-        // The connection was successful
+        //The Facebook connection was successful
         if(res.status == "connected") {
 
-            // Get user ID and Token
+            //Get user id and facebook access token (we will send this token to our server so it can also retrieve the user's data from Facebook).
             var fb_id = res.authResponse.userID;
             var fb_token = res.authResponse.accessToken;
 
-            // Get user info from the API
+            //Call the Facebook API and request desired user data
             this.fb.api("/me?fields=name,gender,birthday,email", []).then((user) => {
 
-                // Get the connected user details
+                //At this point, you can get the connected user details directly from Facebook 
                 var gender    = user.gender;
                 var birthday  = user.birthday;
                 var name      = user.name;
                 var email     = user.email;
 
-                console.log("=== USER INFOS ===");
+                console.log("**** USER PROFILE INFORMATION ****");
                 console.log("Gender : " + gender);
                 console.log("Birthday : " + birthday);
                 console.log("Name : " + name);
                 console.log("Email : " + email);
 
+
                 this.showLoader();
 
+                //Next, we need to connect with our server so we can recognize this user and store data about them.
+                //The server will create a new Givdo profile for them if they are a new user, or else it will send back the existing profile details.
+
+                //We will send the Facebook access token we were just given to our auth provider so we can do this.
                 this.authService.login(fb_token).then((result) => {     //send the facebook access token to our auth provider
                     this.loading.dismiss();
                     console.log(result);
@@ -77,16 +82,12 @@ export class LoginPage {
                     console.log(err);
                 });
 
-                // => Open user session and redirect to the next page
-
             });
 
         } 
-        // An error occurred while loging-in
+        //An error
         else {
-
-            console.log("An error occurred...");
-
+            console.log("An error occurred during Facebook connection in login.ts");
         }
 
     })
@@ -95,37 +96,11 @@ export class LoginPage {
     });
 }
  
-    /*login(){
- 
-        this.showLoader();
- 
-        //Get credentials to send to our auth provider
-        let credentials = {
-            email: this.email,
-            password: this.password
-        };
- 
-        this.authService.login(credentials).then((result) => {
-            this.loading.dismiss();
-            console.log(result);
-            this.navCtrl.setRoot(HomePage);
-        }, (err) => {
-            this.loading.dismiss();
-            console.log(err);
-        });
- 
-    } */
 
       
- 
-    showLoader(){
- 
-        this.loading = this.loadingCtrl.create({
-            content: 'Authenticating...'
-        });
- 
+    //Create our loader animation and display it.
+    showLoader(){         
+        this.loading = this.loadingCtrl.create({content: 'Authenticating...'});
         this.loading.present();
- 
     }
- 
-}
+ }
