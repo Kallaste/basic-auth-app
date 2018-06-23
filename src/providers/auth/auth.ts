@@ -39,7 +39,7 @@ export class AuthProvider {
 
         //Use the Http client we brought in through the constructor to make the API call to the server using our custom headers
         //The /api/auth/protected route does not do anything except verify if the user is logged in. If the request suceeds, they are already logged in; if it fails, they are not
-        this.http.get('http:localhost:8080/api/auth/protected', {headers: headers})
+        this.http.get('http://localhost:3000/auth/protected', {headers: headers})
           .subscribe(res => {
             let data = res.json();    //Convert the response to JSON format
             this.token = data.token;  //The server passes the JWT to us in the response data, and we store it in our token variable
@@ -60,6 +60,32 @@ export class AuthProvider {
 
       
     });
+  }
+
+  checkAuthentication2(){
+ 
+    return new Promise((resolve, reject) => {
+ 
+        //Load token if exists
+        this.storage.get('token').then((value) => {
+ 
+            this.token = value;
+ 
+            let headers = new Headers();
+            
+            headers.append('Authorization', this.token);
+ 
+            this.http.get('http://localhost:3000/auth/protected', {headers: headers})
+              .subscribe(res => {
+                    resolve(res);
+                }, (err) => {
+                    reject(err);
+                });
+ 
+        });        
+ 
+    });
+ 
   }
 
   //Call this when we need to create a new user account

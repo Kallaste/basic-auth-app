@@ -28,7 +28,7 @@ export class LoginPage {
         this.showLoader();
  
         //Check if already authenticated, i.e, see if they have a valid JWT
-        this.authService.checkAuthentication().then((res) => {
+        this.authService.checkAuthentication2().then((res) => {
             console.log("Already authorized");    //Our authservice returns a promise. If promise is resolved, the user has a valid JWT.
             this.loading.dismiss();
             this.navCtrl.setRoot(HomePage);       //Logged in, redirect to home page
