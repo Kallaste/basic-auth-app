@@ -3,12 +3,9 @@ import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
-//import { Storage } from '@ionic/storage';  //Don't do this. Ioinc keeps changing their syntax and it doesn't work anymore. 
-//import { IonicStorageModule } from '@ionic/Storage';  
-//To use this, you need to install sqlite with the following command: 'ionic cordova plugin add cordova-sqlite-storage'
-import { IonicStorageModule } from '@ionic/storage' //Do this instead. Must be capital S.
-//import { IonicStorageModule } from '@ionic/storage';
-import { HttpModule} from '@angular/http';    //We need this to use Http, or we will get a NullInjectorError that says "No provider for Http!"
+//import { Storage } from '@ionic/storage';  //Don't do this. Ionic keeps changing their syntax and it doesn't work anymore. 
+import { IonicStorageModule } from '@ionic/storage' //Do this instead. Must be a lower case S in 'storage.'
+import { HttpModule} from '@angular/http';    //We need this to use Http, or we will get a NullInjectorError
 
 import { Facebook } from '@ionic-native/facebook';    //This is the module we installed with the 'ionic cordova add <APP_ID> <APP_NAME>' command
 
@@ -28,7 +25,7 @@ import { AuthProvider } from '../providers/auth/auth';
     BrowserModule,
     IonicModule.forRoot(MyApp),
     HttpModule,
-    IonicStorageModule.forRoot()    //Test: Do we need this?
+    IonicStorageModule.forRoot()    
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -42,8 +39,7 @@ import { AuthProvider } from '../providers/auth/auth';
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthProvider,
-    Facebook          //Added
-    //IonicStorageModule
+    Facebook          
   ]
 })
 export class AppModule {}
