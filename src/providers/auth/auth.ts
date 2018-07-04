@@ -75,6 +75,9 @@ export class AuthProvider {
           
           //An instance of the Angular Headers class
           let headers = new Headers();
+
+          //Tell what kind of content we are sending
+          //headers.append('Content-Type', 'application/json');
           
           //Append a header name of "Authorization" with a value of the retrieved token
           //If our server receives a request to a protected route without the Authorization heaader and a valid JWT, it will reject the request 
@@ -99,12 +102,6 @@ export class AuthProvider {
   login(facebook_access_token){
 
     return new Promise((resolve, reject) => {
-
-      //Angular Headers class
-      //let headers = new Headers();
-
-      //Tell what kind of content we are sending
-      //headers.append('Content-Type', 'application/json');
 
       //Send the facebook access token we obtained along with our headers to our server via the api call
       this.http.post('http://localhost:3000/auth/facebook/callback', {access_token: facebook_access_token})
