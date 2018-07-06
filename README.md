@@ -1,6 +1,6 @@
 # Basic Auth App
 
-An example app that performs Facebook authentication using JSON web tokens in conjunction with the Givdo server  
+An example app showing how to perform Facebook authentication using JSON web tokens in conjunction with the Givdo server  
 
 Instructions:
 
